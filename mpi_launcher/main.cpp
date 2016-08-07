@@ -17,6 +17,8 @@
 
 #include "omp.h"
 
+
+
 using namespace std;
 
 inline bool file_exists(const std::string& name)
