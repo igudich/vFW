@@ -1,11 +1,17 @@
 #include "params.h"
+#include "vwf_model.h"
+#include "hydro.h"
+#include "spheres_interaction.h"
+#include "random_force.h"
 #include <iostream>
 
-using std::endl;
 using std::cout;
+using std::endl;
 
 int main() {
-    parameters params;
+    vwf_model model;
+    
+    parameters & params = model.params;
 
     params.read_from_file("params.txt");
 
@@ -31,7 +37,21 @@ int main() {
 
     cout << "mno = " << params.mno << endl;
     cout << "kspr = " << params.kspr << endl;
-    cout << "kvdw = " << params.kvdw << endl;
+    cout << "kvdw = " << params.kvdw << endl << endl;
+
+    model.read_positions("initial_coords_40.txt");
+    model.forces.push_back(spheres_interaction_force());
+    model.forces.push_back(hydro());
+    model.forces.push_back(random_force(179));
+
+    // Main loop over time
+
+    for (int s = 0; s < params.N; s++) {
+        model.iterate();
+        if (s % params.nfac == 0) {
+            cout << s << endl;
+        }
+    }
 
     return 0;
 }

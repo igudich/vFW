@@ -8,13 +8,13 @@
 class vwf_model {
     std::vector<vect> position;
     std::vector<vect> velocities;
-    parameters &params;
     void recalc_mass_center();
   public:
+    parameters params;
     vect mass_center;
     std::vector<force> forces;
 
-    vwf_model(parameters &_params);
+    vwf_model();
     void read_positions(std::string filename);
 
     void iterate();

@@ -1,5 +1,7 @@
-#pragma once
-#include "C:\Users\gosha\vFW_repo\new_code\force.h"
+#ifndef RANDOM_FORCE_H_
+#define RANDOM_FORCE_H_
+
+#include "force.h"
 #include <random>
 
 class random_force : public force
@@ -12,3 +14,5 @@ public:
 	std::vector<vect> get_velocity_increment(const parameters& params, const std::vector<vect>& position);
 };
 
+
+#endif // RANDOM_FORCE_H_
