@@ -1,7 +1,7 @@
 TARGET = vWFnew
 
 CC = g++
-CXXFLAGS = -std=c++11
+CXXFLAGS = -std=c++11 -O2
 #OPTS = -I /home/kmm/local/include
 #BOOST_LIBS = -lboost_mpi -lboost_serialization
 

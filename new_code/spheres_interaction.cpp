@@ -2,6 +2,7 @@
 #include "params.h"
 #include <cassert>
 #include <cmath>
+#include <iostream>
 
 spheres_interaction_force::spheres_interaction_force() {}
 
@@ -10,7 +11,7 @@ std::vector<vect> spheres_interaction_force::get_velocity_increment(const parame
 
     for (int i = 0; i < params.N; i++) {
         for (int j = i + 1; j < params.N; j++) {
-            vect dv(position[i], position[j]);
+            vect dv(position[j], position[i]);
             double l = dv.length();
 
             assert(l > 1e-9); // NEVER compare doubles on equality!
@@ -32,7 +33,7 @@ std::vector<vect> spheres_interaction_force::get_velocity_increment(const parame
 
     std::vector<vect> ret(params.N);
     for (int i = 0; i < params.N; i++) {
-        ret[i] = params.dt * forces[i];
+        ret[i] = (1 / params.gamma) * forces[i];
     }
 
     return ret;
