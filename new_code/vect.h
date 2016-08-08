@@ -1,3 +1,6 @@
+#ifndef VECT_H_
+#define VECT_H_
+
 struct vect {
     double x, y, z;
 
@@ -11,3 +14,5 @@ struct vect {
 // that allows us to multiply a vector by a number
 
 vect operator*(const double & f, const vect & v);
+
+#endif // VECT_H_

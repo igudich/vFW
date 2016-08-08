@@ -1,3 +1,6 @@
+#ifndef PARAMS_H_
+#define PARAMS_H_
+
 #include <string>
 
 struct parameters {
@@ -34,4 +37,6 @@ struct parameters {
     void read_from_file(std::string filename);
 };
 
-extern parameters params;
+#define RATE_NORM 10000
+
+#endif // PARAMS_H_

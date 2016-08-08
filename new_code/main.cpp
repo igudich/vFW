@@ -5,6 +5,8 @@ using std::endl;
 using std::cout;
 
 int main() {
+    parameters params;
+
     params.read_from_file("params.txt");
 
     cout << "dt = " << params.dt << endl;

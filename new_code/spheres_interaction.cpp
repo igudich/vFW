@@ -5,7 +5,7 @@
 
 spheres_interaction_force::spheres_interaction_force() {}
 
-std::vector<vect> spheres_interaction_force::get_velocity_increment(const std::vector<vect>& position) {
+std::vector<vect> spheres_interaction_force::get_velocity_increment(const parameters& params, const std::vector<vect>& position) {
     std::vector<vect> forces(params.N);
 
     for (int i = 0; i < params.N; i++) {

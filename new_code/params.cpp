@@ -7,8 +7,6 @@ using std::ifstream;
 using std::stringstream;
 using std::string;
 
-parameters params;
-
 parameters::parameters() {}
 
 template<typename param_type>
@@ -40,6 +38,8 @@ void parameters::read_from_file(string filename) {
 
     read_param(fin, srat);
     read_param(fin, erat);
+    srat /= RATE_NORM;
+    erat /= RATE_NORM;
 
     read_param(fin, nu);
     gamma = 6 * M_PI * nu * R;
