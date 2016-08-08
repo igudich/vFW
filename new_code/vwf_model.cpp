@@ -22,8 +22,8 @@ void vwf_model::recalc_mass_center() {
 }
 
 void vwf_model::iterate() {
-    for (force f : forces) {
-        std::vector<vect> deltas = f.get_velocity_increment(params, position);
+    for (auto& f : forces) {
+        std::vector<vect> deltas = f->get_velocity_increment(params, position);
         for (int i = 0; i < params.N; i++) {
             velocities[i] = velocities[i] + deltas[i];
         }

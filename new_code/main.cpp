@@ -40,9 +40,9 @@ int main() {
     cout << "kvdw = " << params.kvdw << endl << endl;
 
     model.read_positions("initial_coords_40.txt");
-    model.forces.push_back(spheres_interaction_force());
-    model.forces.push_back(hydro());
-    model.forces.push_back(random_force(179));
+    model.forces.emplace_back(new spheres_interaction_force());
+    model.forces.emplace_back(new hydro());
+    model.forces.emplace_back(new random_force(179));
 
     // Main loop over time
 
