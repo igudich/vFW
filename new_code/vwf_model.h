@@ -8,7 +8,6 @@
 
 class vwf_model {
     std::vector<vect> position;
-    std::vector<vect> velocities;
     void recalc_mass_center();
   public:
     parameters params;

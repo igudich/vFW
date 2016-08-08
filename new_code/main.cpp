@@ -46,7 +46,7 @@ int main() {
 
     // Main loop over time
 
-    for (int s = 0; s < params.N; s++) {
+    for (int s = 0; s < params.ns; s++) {
         model.iterate();
         if (s % params.nfac == 0) {
             cout << s << endl;

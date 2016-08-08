@@ -19,7 +19,7 @@ std::vector<vect> random_force::get_velocity_increment(const parameters& params,
 		v.x += distribution(generator)*params.mno;
 		v.y += distribution(generator)*params.mno;
 		v.z += distribution(generator)*params.mno;
-		res.push_back(params.dt*v);
+		res.push_back((1 / params.gamma)*v);
 	}
 	return res;
 }
