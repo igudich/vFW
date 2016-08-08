@@ -1,8 +1,5 @@
 #include <vector>
-
-struct vect {
-    double x, y, z;
-};
+#include "vect.h"
 
 class force {
   public:
