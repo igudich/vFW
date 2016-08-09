@@ -13,6 +13,7 @@ random_force::~random_force()
 std::vector<vect> random_force::get_velocity_increment(const parameters& params, const std::vector<vect>& position)
 {
 	std::vector<vect> res;
+
 	vect v(0, 0, 0);
 	for (int i = 0; i < position.size(); ++i)
 	{
