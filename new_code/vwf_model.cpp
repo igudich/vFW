@@ -18,7 +18,7 @@ void vwf_model::recalc_mass_center() {
     mass_center = vect();
     for (int i = 0; i < params.N; i++)
         mass_center = mass_center + position[i];
-    mass_center = (1 / params.N) * mass_center;
+    mass_center = (1.0 / params.N) * mass_center;
 }
 
 
