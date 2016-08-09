@@ -19,14 +19,14 @@ random_force::~random_force()
 std::vector<vect> random_force::get_velocity_increment(const parameters& params, const std::vector<vect>& position)
 {
 	std::vector<vect> res;
-
-	vect v(0, 0, 0);
+    vect v;
 #ifdef TEST_MODE
         std::ifstream ifstr;
         ifstr.open("./normal_distr_500k.txt");
         double dbuf;
         for (int i = 0; i < position.size(); ++i)
         {
+	        v = vect(0, 0, 0);
             ifstr>>dbuf;
             v.x += dbuf*params.mno;
             ifstr>>dbuf;
@@ -39,6 +39,7 @@ std::vector<vect> random_force::get_velocity_increment(const parameters& params,
 #else // TEST_MODE
 	for (int i = 0; i < position.size(); ++i)
 	{
+	    v = vect(0, 0, 0);
 		v.x += distribution(generator)*params.mno;
 		v.y += distribution(generator)*params.mno;
 		v.z += distribution(generator)*params.mno;
