@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+#include <cassert>
 
 using std::ifstream;
 using std::stringstream;
@@ -50,4 +51,19 @@ void parameters::read_from_file(string filename) {
     kvdw = uvdw * kT;
 
     fin.close();
+}
+
+void parameters::write_to_file(std::string filename) {
+    FILE *f = fopen(filename.c_str(), "w");
+    assert(f);
+
+    fprintf(f, "ns = %lld\n", ns);
+    fprintf(f, "N = %d\n", N);
+    fprintf(f, "uvdw = %.16f\n", uvdw);
+    fprintf(f, "uspr = %.16f\n", uspr);
+    fprintf(f, "alpha = %.16f\n", alpha);
+    fprintf(f, "srat = %.16f\n", srat);
+    fprintf(f, "erat = %.16f\n", erat);
+
+    fclose(f);
 }

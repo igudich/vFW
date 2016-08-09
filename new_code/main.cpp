@@ -4,9 +4,23 @@
 #include "spheres_interaction.h"
 #include "random_force.h"
 #include <iostream>
+#include <ctime>
+#include <sstream>
+#include <string>
+#include <fstream>
 
 using std::cout;
 using std::endl;
+
+std::string get_date_string() {
+    time_t cur_time = std::time(0);
+    struct tm *now = std::localtime(&cur_time);
+
+    char s[100];
+    sprintf(s, "%02d-%02d-%02d_%02d-%02d-%02d", now->tm_year % 100, now->tm_mon + 1, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec);
+
+    return s;
+}
 
 int main() {
     vwf_model model;
@@ -39,6 +53,11 @@ int main() {
     cout << "kspr = " << params.kspr << endl;
     cout << "kvdw = " << params.kvdw << endl << endl;
 
+    std::string date = get_date_string();
+    params.write_to_file(date + "_params.txt");
+
+    std::ofstream outf(date + "_coords.txt");
+
     model.read_positions("initial_coords_40.txt");
     model.forces.emplace_back(new spheres_interaction_force());
     model.forces.emplace_back(new hydro());
@@ -50,8 +69,11 @@ int main() {
         model.iterate();
         if (s % params.nfac == 0) {
             cout << s << endl;
+            model.write_to_file(outf, s / params.nfac);
         }
     }
+
+    outf.close();
 
     return 0;
 }

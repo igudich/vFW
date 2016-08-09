@@ -35,6 +35,7 @@ struct parameters {
 
     parameters();
     void read_from_file(std::string filename);
+    void write_to_file(std::string filename);
 };
 
 #define RATE_NORM 10000

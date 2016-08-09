@@ -43,3 +43,10 @@ void vwf_model::iterate() {
     }
     recalc_mass_center();
 }
+
+void vwf_model::write_to_file(std::ofstream & fout, int it) {
+    fout << std::endl << "* " << it << std::endl;
+    for (int i = 0; i < params.N; i++) {
+        fout << position[i].x << " " << position[i].y << " " << position[i].z << std::endl;
+    }
+}

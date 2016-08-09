@@ -16,6 +16,7 @@ class vwf_model {
 
     vwf_model();
     void read_positions(std::string filename);
+    void write_to_file(std::ofstream & fout, int it);
 
     void iterate();
 };
