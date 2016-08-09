@@ -33,7 +33,7 @@ std::vector<vect> random_force::get_velocity_increment(const parameters& params,
             v.y += dbuf*params.mno;
             ifstr>>dbuf;
             v.z += dbuf*params.mno;
-            res.push_back((1 / params.gamma)*v);
+            res.push_back((1.0 / params.gamma)*v);
         }
         ifstr.close();
 #else // TEST_MODE
@@ -43,7 +43,7 @@ std::vector<vect> random_force::get_velocity_increment(const parameters& params,
 		v.x += distribution(generator)*params.mno;
 		v.y += distribution(generator)*params.mno;
 		v.z += distribution(generator)*params.mno;
-		res.push_back((1 / params.gamma)*v);
+		res.push_back((1.0 / params.gamma)*v);
 	}
 #endif //TEST_MODE
 	return res;

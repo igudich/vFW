@@ -69,6 +69,7 @@ int main() {
         model.iterate();
         if (s % params.nfac == 0) {
             cout << s << endl;
+            cout << model.mass_center.x << " " << model.mass_center.y << " " << model.mass_center.z << endl;
             model.write_to_file(outf, s / params.nfac);
         }
     }

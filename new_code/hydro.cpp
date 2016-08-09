@@ -1,4 +1,5 @@
 #include "hydro.h"
+#include <iostream>
 
 hydro::hydro(vect & mc) : mass_center(mc) {}
 
