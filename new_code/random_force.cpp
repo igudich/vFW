@@ -23,6 +23,7 @@ std::vector<vect> random_force::get_velocity_increment(const parameters& params,
 #ifdef TEST_MODE
         std::ifstream ifstr;
         ifstr.open("./normal_distr_500k.txt");
+        assert(ifstr.is_open());
         double dbuf;
         for (int i = 0; i < position.size(); ++i)
         {
@@ -34,6 +35,7 @@ std::vector<vect> random_force::get_velocity_increment(const parameters& params,
             ifstr>>dbuf;
             v.z += dbuf*params.mno;
             res.push_back((1.0 / params.gamma)*v);
+            assert(ifstr.good());
         }
         ifstr.close();
 #else // TEST_MODE

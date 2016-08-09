@@ -7,6 +7,7 @@
 // 1 = 10^-15 kg
 
 
+#include "stdafx.h"
 #include "time.h"
 #include "ctime"
 
