@@ -50,3 +50,11 @@ void vwf_model::write_to_file(std::ofstream & fout, int it) {
         fout << position[i].x << " " << position[i].y << " " << position[i].z << std::endl;
     }
 }
+
+void vwf_model::write_pair_forces(std::ofstream &fout, int it)
+{
+    fout << std::endl << "* " << it << std::endl;
+    for (int i = 0; i < params.N - 1; i++) {
+        fout << pair_forces[i] << std::endl;
+    }
+}

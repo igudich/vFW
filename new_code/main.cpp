@@ -57,9 +57,10 @@ int main() {
     params.write_to_file(date + "_params.txt");
 
     std::ofstream outf(date + "_coords.txt");
+    std::ofstream outforces(date + "_forces.txt");
 
     model.read_positions("initial_coords_40.txt");
-    model.forces.emplace_back(new spheres_interaction_force_unfold(params.N, 179));
+    model.forces.emplace_back(new spheres_interaction_force_unfold(params.N, 179, model.pair_forces));
     model.forces.emplace_back(new hydro(model.mass_center));
     model.forces.emplace_back(new random_force(179));
 
@@ -71,10 +72,12 @@ int main() {
             cout << s << endl;
             cout << model.mass_center.x << " " << model.mass_center.y << " " << model.mass_center.z << endl;
             model.write_to_file(outf, s / params.nfac);
+            model.write_pair_forces(outforces, s / params.nfac);
         }
     }
 
     outf.close();
+    outforces.close();
 
     return 0;
 }

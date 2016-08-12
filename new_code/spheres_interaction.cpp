@@ -9,10 +9,11 @@
 #include <cmath>
 #include <iostream>
 
-spheres_interaction_force::spheres_interaction_force() {}
+spheres_interaction_force::spheres_interaction_force(std::vector<double>& pf) : pair_forces(pf) {}
 
 std::vector<vect> spheres_interaction_force::get_velocity_increment(const parameters& params, const std::vector<vect>& position) {
     std::vector<vect> forces(params.N);
+    pair_forces.resize(params.N);
 
     for (int i = 0; i < params.N; i++) {
         for (int j = i + 1; j < params.N; j++) {
@@ -24,6 +25,8 @@ std::vector<vect> spheres_interaction_force::get_velocity_increment(const parame
                 vect fpr = (params.kspr * (l - params.d) / l) * dv;
                 forces[i] = forces[i] + (-1) * fpr;
                 forces[j] = forces[j] + fpr;
+                if(j == i + 1)
+                    pair_forces[i] = fpr.length();
             } else if (params.d < l && l < 2 * params.d) {
                 double u = std::exp(-((l - params.d) / params.d) * params.alpha);
                 double u2 = 2 * params.alpha * params.kvdw * (u * (1 - u) / (l * params.d));
@@ -67,7 +70,8 @@ std::vector<std::tuple<vect, int, int> > spheres_interaction_force::get_close_fo
     return ret;
 }
 
-spheres_interaction_force_unfold::spheres_interaction_force_unfold(int n, int seed) : eng(seed), dist(0, 1), is_unfolded(2 * n, false) {}
+spheres_interaction_force_unfold::spheres_interaction_force_unfold(int n, int seed, std::vector<double>& pf) :
+    eng(seed), dist(0, 1), is_unfolded(2 * n, false), pair_forces(pf) {}
 
 bool spheres_interaction_force_unfold::gen_event(double probability) {
     return dist(eng) < probability; 
@@ -75,6 +79,7 @@ bool spheres_interaction_force_unfold::gen_event(double probability) {
 
 std::vector<vect> spheres_interaction_force_unfold::get_velocity_increment(const parameters& params, const std::vector<vect>& position) {
     std::vector<vect> forces(params.N);
+    pair_forces.resize(params.N);
     std::vector<bool> new_is_unfolded(2 * params.N);
 
     for (int i = 0; i < params.N; i++) {
@@ -94,6 +99,8 @@ std::vector<vect> spheres_interaction_force_unfold::get_velocity_increment(const
 
                 forces[i] = forces[i] + (-1) * fpr;
                 forces[j] = forces[j] + fpr;
+                if(j == i + 1)
+                    pair_forces[i] = fpr.length();
                 
                 if (!is_unfolded[2 * i + 1]) {
                     new_is_unfolded[2 * i + 1] = gen_event(params.pu * params.dt * std::exp(fpr.length() / params.f0u));
