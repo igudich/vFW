@@ -46,6 +46,12 @@ void parameters::read_from_file(string filename) {
     gamma = 6 * M_PI * nu * R;
     D = kT / gamma;
 
+    read_param(fin, pu);
+    read_param(fin, pf);
+    read_param(fin, dd);
+    read_param(fin, f0u);
+    read_param(fin, f0f);
+
     mno = std::sqrt(2 * gamma * kT / dt);
     kspr = (uspr / (2 * R * R)) * kT;
     kvdw = uvdw * kT;
