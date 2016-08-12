@@ -10,8 +10,13 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
+
+  string ex_name("../vWFnew");
+  if(argc > 1)
+    ex_name = string(argv[1]);
+	
   stringstream sstr;
   string conf_name, folder_name, s;
   
@@ -27,19 +32,20 @@ int main()
 
   sstr<<world_rank;
   sstr>>s;
-  conf_name = string("../") + string("conf_") + s + string(".dat");
+  conf_name = string("../") + string("params_") + s + string(".txt");
   folder_name = string("out_") + s;
   
   mkdir(folder_name.c_str(), 0777);
-  chdir(folder_name.c_str());
- 
+  if(chdir(folder_name.c_str()) != 0)
+	return 1;
+  cout<<"r = "<< world_rank<<"; folder: "<<folder_name.c_str()<< endl;
   
   pid_t pid = fork();
-  int exec_time;
   if(pid == 0)
   {
-	 execl("../vWF", "../vWF", conf_name.c_str(), NULL);
 	 cout<<"r = "<< world_rank<< " pid = " << pid << endl;
+	 cout<<ex_name.c_str()<<" "<<conf_name.c_str()<<endl;
+	 execl(ex_name.c_str(), ex_name.c_str(), conf_name.c_str(), NULL);
   } 
   else 
   {
