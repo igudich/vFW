@@ -15,3 +15,6 @@
 5                   // dd
 1000                // f0u
 1.54e6              // f0f
+./outp_x.txt	    //x_file
+./outp_1_20.txt	    //v_file
+./outp_srate_20.txt	    //srate_file

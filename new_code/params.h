@@ -39,6 +39,10 @@ struct parameters {
     double mno;
     double kspr;
     double kvdw;
+// for flow chamber hydridynamics
+    std::string x_file;
+    std::string v_file;
+    std::string srate_file;
 
     parameters();
     void read_from_file(std::string filename);

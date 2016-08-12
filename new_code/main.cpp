@@ -27,7 +27,7 @@ int main() {
 
     parameters & params = model.params;
 
-    params.read_from_file("params.txt");
+    params.read_from_file("/home/gosha/work/bioschool/vWF_repo/new_code/params.txt");
 
     cout << "dt = " << params.dt << endl;
     cout << "ns = " << params.ns << endl;
@@ -51,7 +51,11 @@ int main() {
 
     cout << "mno = " << params.mno << endl;
     cout << "kspr = " << params.kspr << endl;
-    cout << "kvdw = " << params.kvdw << endl << endl;
+    cout << "kvdw = " << params.kvdw << endl;
+
+    cout << "x_file: " << params.x_file<< endl;
+    cout << "v_file: " << params.v_file<< endl;
+    cout << "srate_file: " << params.srate_file<< endl;
 
     std::string date = get_date_string();
     params.write_to_file(date + "_params.txt");

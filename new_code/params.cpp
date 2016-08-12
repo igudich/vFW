@@ -2,16 +2,17 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+#include <iostream>
 #include <cassert>
 
 using std::ifstream;
 using std::stringstream;
 using std::string;
 
-parameters::parameters() {}
+parameters::parameters() : x_file(), v_file(), srate_file() {}
 
 template<typename param_type>
-static void read_param(ifstream& fin, param_type& p) {
+void read_param(ifstream& fin, param_type& p) {
     string s;
     stringstream ss;
 
@@ -19,6 +20,15 @@ static void read_param(ifstream& fin, param_type& p) {
     ss << s;
     ss >> p;
 }
+
+template<>
+void read_param(ifstream& fin, std::string& p)
+{
+    std::getline(fin, p);
+    p = p.substr(0, p.find(' '));
+
+}
+
 
 void parameters::read_from_file(string filename) {
     ifstream fin(filename.c_str());
@@ -55,6 +65,11 @@ void parameters::read_from_file(string filename) {
     mno = std::sqrt(2 * gamma * kT / dt);
     kspr = (uspr / (2 * R * R)) * kT;
     kvdw = uvdw * kT;
+
+
+    read_param(fin, x_file);
+    read_param(fin, v_file);
+    read_param(fin, srate_file);
 
     fin.close();
 }
