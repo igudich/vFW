@@ -59,8 +59,8 @@ int main() {
     std::ofstream outf(date + "_coords.txt");
 
     model.read_positions("initial_coords_40.txt");
-    model.forces.emplace_back(new spheres_interaction_force());
-    model.forces.emplace_back(new hydro());
+    model.forces.emplace_back(new spheres_interaction_force_unfold(params.N, 179));
+    model.forces.emplace_back(new hydro(model.mass_center));
     model.forces.emplace_back(new random_force(179));
 
     // Main loop over time

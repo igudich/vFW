@@ -29,6 +29,13 @@ struct parameters {
     double gamma;      // Friction coefficient for sphere (dimer) in plasma
     double D;          // Diffusion constant
 
+    // Folding
+    double pu;         // unfolding rate constant
+    double pf;         // folding rate constant
+    double dd;         // folding string relaxation length for one domain
+    double f0u;        // unfolding force scale
+    double f0f;        // folding force scale
+
     double mno;
     double kspr;
     double kvdw;
