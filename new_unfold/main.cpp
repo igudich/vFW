@@ -22,12 +22,17 @@ std::string get_date_string() {
     return s;
 }
 
-int main() {
+int main(int argc, char** argv) {
     vwf_model model;
+    std::string parameters_filename;
+    if (argc == 1)
+        parameters_filename = "params.txt";
+    else
+        parameters_filename = argv[1];
 
     parameters & params = model.params;
 
-    params.read_from_file("params.txt");
+    params.read_from_file(parameters_filename);
 
     cout << "dt = " << params.dt << endl;
     cout << "ns = " << params.ns << endl;
