@@ -27,7 +27,7 @@ int main() {
 
     parameters & params = model.params;
 
-    params.read_from_file("/home/gosha/work/bioschool/vWF_repo/new_code/params.txt");
+    params.read_from_file("params.txt");
 
     cout << "dt = " << params.dt << endl;
     cout << "ns = " << params.ns << endl;
@@ -51,11 +51,11 @@ int main() {
 
     cout << "mno = " << params.mno << endl;
     cout << "kspr = " << params.kspr << endl;
-    cout << "kvdw = " << params.kvdw << endl;
+    cout << "kvdw = " << params.kvdw << endl << endl;
 
-    cout << "x_file: " << params.x_file<< endl;
-    cout << "v_file: " << params.v_file<< endl;
-    cout << "srate_file: " << params.srate_file<< endl;
+    cout << "x_file: " << params.x_file << endl;
+    cout << "v_file: " << params.v_file << endl;
+    cout << "srate_file: " << params.srate_file << endl << endl;
 
     std::string date = get_date_string();
     params.write_to_file(date + "_params.txt");
@@ -65,7 +65,7 @@ int main() {
 
     model.read_positions("initial_coords_40.txt");
     model.forces.emplace_back(new spheres_interaction_force_unfold(params.N, 179, model.pair_forces));
-    model.forces.emplace_back(new hydro(model.mass_center));
+    model.forces.emplace_back(new hydro_vessel(model.mass_center, params.x_file, params.srate_file, params.v_file));
     model.forces.emplace_back(new random_force(179));
 
     // Main loop over time
