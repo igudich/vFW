@@ -22,6 +22,7 @@ std::string get_date_string() {
     return s;
 }
 
+
 int main(int argc, char** argv) {
     vwf_model model;
     std::string parameters_filename;
@@ -78,8 +79,8 @@ int main(int argc, char** argv) {
     for (int s = 0; s < params.ns; s++) {
         model.iterate();
         if (s % params.nfac == 0) {
-            cout << s << endl;
-            cout << model.mass_center.x << " " << model.mass_center.y << " " << model.mass_center.z << endl;
+//            cout << s << endl;
+//            cout << model.mass_center.x << " " << model.mass_center.y << " " << model.mass_center.z << endl;
             model.write_to_file(outf, s / params.nfac);
             model.write_pair_forces(outforces, s / params.nfac);
         }
