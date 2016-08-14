@@ -8,7 +8,7 @@ CXXFLAGS = -std=c++11 -O2
 RM = rm -rf 
 
 DEPS = hydro.h params.h random_force.h spheres interaction.h vect.h force.h vwf_model.h 
-SRC = main.cpp hydro.cpp params.cpp random_force.cpp spheres_interaction.cpp vect.cpp vwf_model.cpp 
+SRC = main.cpp hydro.cpp params.cpp random_force.cpp spheres_interaction.cpp vect.cpp vwf_model.cpp model.cpp 
 
 OBJS = $(SRC:.cpp=.o)
 
