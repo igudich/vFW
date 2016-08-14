@@ -3,6 +3,7 @@
 
 #include "force.h"
 #include "params.h"
+#include "vwf_model.h"
 #include <random>
 #include <tuple>
 
@@ -22,6 +23,13 @@ class spheres_interaction_force_unfold : public force {
   public:
     std::vector<bool> is_unfolded;
     spheres_interaction_force_unfold(int n, int seed, std::vector<double>& pf);
+    std::vector<vect> get_velocity_increment(const parameters& params, const std::vector<vect>& position);
+};
+
+class interprotein_interaction_force : public force {
+    vwf_model &with;
+  public:
+    interprotein_interaction_force(vwf_model& _with);
     std::vector<vect> get_velocity_increment(const parameters& params, const std::vector<vect>& position);
 };
 

@@ -7,20 +7,22 @@
 #include "force.h"
 
 class vwf_model {
-    std::vector<vect> position;
     void recalc_mass_center();
   public:
+    std::vector<vect> position;
     std::vector<double> pair_forces;
-    parameters params;
+    parameters & params;
     vect mass_center;
     std::vector<std::unique_ptr<force> > forces;
+    std::vector<vect> velocities;
 
-    vwf_model();
+    vwf_model(parameters & _params);
     void read_positions(std::string filename);
     void write_to_file(std::ofstream & fout, int it);
     void write_pair_forces(std::ofstream & fout, int it);
 
-    void iterate();
+    void calculate_velocities();
+    void move_protein();
 };
 
 #endif // VWF_MODEL_H_

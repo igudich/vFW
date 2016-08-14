@@ -9,6 +9,17 @@
 #include <cmath>
 #include <iostream>
 
+static inline vect get_close_interaction_force(double l, vect dv, const parameters & params) {
+    if (params.d < l && l < 2 * params.d) {
+        double u = std::exp(-((l - params.d) / params.d) * params.alpha);
+        double u2 = 2 * params.alpha * params.kvdw * (u * (1 - u) / (l * params.d));
+        
+        return u2 * dv;
+    } else {
+        return vect();
+    }
+}
+
 spheres_interaction_force::spheres_interaction_force(std::vector<double>& pf) : pair_forces(pf) {}
 
 std::vector<vect> spheres_interaction_force::get_velocity_increment(const parameters& params, const std::vector<vect>& position) {
@@ -27,11 +38,8 @@ std::vector<vect> spheres_interaction_force::get_velocity_increment(const parame
                 forces[j] = forces[j] + fpr;
                 if(j == i + 1)
                     pair_forces[i] = fpr.length();
-            } else if (params.d < l && l < 2 * params.d) {
-                double u = std::exp(-((l - params.d) / params.d) * params.alpha);
-                double u2 = 2 * params.alpha * params.kvdw * (u * (1 - u) / (l * params.d));
-
-                vect fpr = u2 * dv;
+            } else {
+                vect fpr = get_close_interaction_force(l, dv, params);
 
                 forces[i] = forces[i] + (-1) * fpr;
                 forces[j] = forces[j] + fpr;
@@ -56,14 +64,10 @@ std::vector<std::tuple<vect, int, int> > spheres_interaction_force::get_close_fo
             double l = dv.length();
 
             assert(l > 1e-9); // NEVER compare doubles on equality!
-            if (params.d < l && l < 2 * params.d) {
-                double u = std::exp(-((l - params.d) / params.d) * params.alpha);
-                double u2 = 2 * params.alpha * params.kvdw * (u * (1 - u) / (l * params.d));
 
-                vect fpr = u2 * dv;
-
+            vect fpr = get_close_interaction_force(l, dv, params);
+            if (fpr.length() > 1e-9)
                 ret.push_back(std::make_tuple(fpr, i, j));
-            }
         }
     }
 
@@ -121,13 +125,8 @@ std::vector<vect> spheres_interaction_force_unfold::get_velocity_increment(const
                         std::cerr << "refold " << fpr.length() << std::endl;
                 }
 
-            } else if (params.d < l && l < 2 * params.d) {
-                double cur_d = params.d;
-                
-                double u = std::exp(-((l - cur_d) / cur_d) * params.alpha);
-                double u2 = 2 * params.alpha * params.kvdw * (u * (1 - u) / (l * cur_d));
-
-                vect fpr = u2 * dv;
+            } else {
+                vect fpr = get_close_interaction_force(l, dv, params);
 
                 forces[i] = forces[i] + (-1) * fpr;
                 forces[j] = forces[j] + fpr;
@@ -145,3 +144,25 @@ std::vector<vect> spheres_interaction_force_unfold::get_velocity_increment(const
     return ret;
 }
 
+interprotein_interaction_force::interprotein_interaction_force(vwf_model & _with) : with (_with) {}
+
+std::vector<vect> interprotein_interaction_force::get_velocity_increment(const parameters & params, const std::vector<vect> & position) {
+    std::vector<vect> forces((int)position.size());
+
+    for (int i = 0; i < (int)position.size(); i++) {
+        for (int j = 0; j < (int)with.position.size(); j++) {
+            vect dv(position[i], with.position[j]);
+            double l = dv.length();
+            
+            if (l < params.d) {
+                vect fpr = (params.kspr * (l - params.d) / l) * dv;
+                forces[i] = forces[i] + fpr;
+            } else {
+                vect fpr = get_close_interaction_force(l, dv, params);
+                forces[i] = forces[i] + fpr;
+            }
+        }
+    }
+
+    return forces;
+}

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <cassert>
 
-vwf_model::vwf_model() {}
+vwf_model::vwf_model(parameters & _params) : params(_params) {}
 
 void vwf_model::read_positions(std::string filename) {
     std::ifstream fin(filename.c_str());
@@ -29,8 +29,8 @@ static void verify_vect(const vect& v) {
     assert(v.z == v.z);
 }
 
-void vwf_model::iterate() {
-    std::vector<vect> velocities(params.N);
+void vwf_model::calculate_velocities() {
+    velocities.assign(params.N, vect(0, 0, 0));
     for (auto& f : forces) {
         std::vector<vect> deltas = f->get_velocity_increment(params, position);
         for (int i = 0; i < params.N; i++) {
@@ -38,6 +38,9 @@ void vwf_model::iterate() {
             velocities[i] = velocities[i] + deltas[i];
         }
     }
+}
+
+void vwf_model::move_protein() {
     for (int i = 0; i < params.N; i++) {
         position[i] = position[i] + params.dt * velocities[i];
     }
